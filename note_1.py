@@ -18,7 +18,7 @@ NOTE_CONFIG_FILE = ".note"
 
 #depends on pathlib to get home directory of user in environment
 str_home_path = str(Path.home())
-print (f'Path: { str_home_path }')
+print (f'Path: { str_home_path }/.note')
 str_conf_file_path = str_home_path + "/" + NOTE_CONFIG_FILE
 conf_file_path = Path(str_conf_file_path)
 
@@ -30,16 +30,21 @@ if conf_file_path.is_file():
 
 last_line = ""
 #read last line from file in binary mode to avoid looping through each line.
-with open(str_conf_file_path, 'rb') as f:
+try:
+  with open(str_conf_file_path, 'rb') as f:
     try:  # catch OSError in case of a one line file 
       f.seek(-2, os.SEEK_END)
       while f.read(1) != b'\n':
           f.seek(-2, os.SEEK_CUR)
       last_line = f.readline().decode()
     except OSError:
+      #In cases where the first line is also the last line, this sets last_line to [0]
+      last_line = "[0]"
       f.seek(0)
     finally:
       f.close()
+except FileNotFoundError:
+  print("File not found.  Creating a new one.")
 
 #print(f'last line {last_line}')
 close_line_number = last_line.find(LINE_NUM_SEPARATOR)
@@ -55,6 +60,7 @@ try:
     last_note_int = str(int(last_note_int) + 1)
 except ValueError:
     print(f'value at beginning of last line was not an integer: {last_note_int}')
+    print('note number will be 0')
     last_note_int = "0"
 
 #invocations of note should append to the file as follows
@@ -63,7 +69,7 @@ except ValueError:
 
 #TODO build a message decorating based on subcommands and option arguments
 
-fp.write('[' + last_note_int + ']' + localTime + ' - ' + sys.argv[1] + '\n')
+fp.write('[' + last_note_int + '][' + localTime + '] - ' + sys.argv[1] + '\n')
 fp.close()
 
 
