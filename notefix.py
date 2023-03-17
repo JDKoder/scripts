@@ -1,3 +1,5 @@
+#Renumbers all of the lines.  This only Prepends numbers, it does not delete anything.
+
 from pathlib import Path
 import sys
 import time
