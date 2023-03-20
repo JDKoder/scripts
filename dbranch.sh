@@ -5,7 +5,7 @@
 #specify file type eg. *
 
 function findAllOfType() {
-    grep --include=\*${1} -rwl '.'
+    grep --include=\*${1} -rl '.'
 }
 
 function getBranch() {
