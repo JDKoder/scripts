@@ -31,3 +31,8 @@ Example:  If you are only interested in the java files that differ between 2 bra
 
 to run:
 `dbranches mybranch myotherbranch .java`
+
+Also provides other smaller one line utilities:
+`currentBranch`: outputs the name of the current github branch
+This can also be passed into the dbranches function
+`dbranches mybranch $(currentBranch)`
