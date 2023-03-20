@@ -33,21 +33,20 @@ function currentBranch() {
 }
 
 function dbranches() {
-#TODO: check arguments before running program
-#    args as follows
-#$1 first branch
-#$2 second branch
-#$3 filename
+    #TODO: check arguments before running program args as follows
+    #$1 first branch
+    #$2 second branch
+    #$3 filename
 
-    cbranch=currentBranch
-    stashChanges
+    cbranch=$(currentBranch > /dev/null 2>&1; echo $?)
+    stashChanges > /dev/null
     getBranch $1
     updateBranch
     findAllOfType $3 > 1.dbranches
     getBranch $2
     updateBranch
     findAllOfType $3 > 2.dbranches
-    getBranch cbranch
-    popChanges
+    getBranch ${cbranch}
+    popChanges > /dev/null
     contextDiff 1.dbranches 2.dbranches
 }
