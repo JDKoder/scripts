@@ -1,6 +1,6 @@
 # scripts
 These are utility scripts.  
-
+---------------------
 note_1.py:
 
 depends on path (pip3 install Path)
@@ -20,4 +20,13 @@ output format:
 
 On unix like systems, I like to keep an open terminal following the note file so I can see these updates in real time:
 tail -f ~/.note
+------------------------
+dbranch.sh:
 
+Depends on git & grep
+
+This shell script is for determining the differing files between 2 github branches.  It uses grep to take snapshots of all the files recursively in the current directory. You may specify the end of the file names to search for.
+
+Example:  If you are only interested in the java files that differ between 2 branches the following call with tell where the files are relative the current directory.
+
+dbranches mybranch myotherbranch .java
