@@ -23,9 +23,9 @@ tail -f ~/.note
 
 dbranch.sh:
 ------------------------
-_Depends on git & grep_
+_Depends on git & find_
 
-This shell script is for determining the differing files between 2 github branches.  It uses grep to take snapshots of all the files recursively in the current directory. You may specify the end of the file names to search for.
+This shell script is for determining the differing files between 2 github branches.  It uses _find_ to take snapshots of all the files recursively in the current directory. You may specify the end of the file names to search for.
 
 Example:  If you are only interested in the java files that differ between 2 branches the following call with tell where the files are relative the current directory.
 
@@ -36,3 +36,6 @@ Also provides other smaller one line utilities:
 `currentBranch`: outputs the name of the current github branch
 This can also be passed into the dbranches function
 `dbranches mybranch $(currentBranch)`
+
+artifacts:
+running dbranches leaves artifacts of the run for review.  These can be cleaned up simply by running `dbranchCleanup`
