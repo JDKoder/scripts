@@ -5,7 +5,7 @@
 #specify file type eg. *
 
 function findAllOfType() {
-    grep --include=\*${1} --exclude=\*.dbranches -rlU '.'
+    grep --include=\*${1} --exclude=\*.dbranches -rl '.'
 }
 
 function getBranch() {
