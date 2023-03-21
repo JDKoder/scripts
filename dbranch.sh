@@ -4,6 +4,19 @@
 #assumes both branches are updated
 #specify file type eg. *
 
+#This will find all files recursively beneath the current directory that match the name given as 
+#the first input.
+#Explicitly skips the contents of .git, node_modules, and target directories.
+#Explicitly skips .dbranches files.
+function findAllFiles() {
+    find . -name "*${1}" \
+        ! -name "*.dbranches" \
+        -not -path "*/.git/*" \
+        -not -path "*/node_modules/*" \
+        -not -path "*/target/*"
+}
+
+#deprecated because this skips empty files.  ALL files that are not explicitly excluded should be found. 
 function findAllOfType() {
     grep --include=\*${1} --exclude=\*.dbranches -rl '.'
 }
@@ -32,6 +45,10 @@ function currentBranch() {
     git rev-parse --abbrev-ref HEAD
 }
 
+function dbranchCleanup() {
+    rm -v *.dbranches
+}
+
 function dbranches() {
     #TODO: check arguments before running program args as follows
     #$1 first branch
@@ -42,10 +59,10 @@ function dbranches() {
     stashChanges > /dev/null
     getBranch $1
     updateBranch
-    findAllOfType $3 > 1.dbranches
+    findAllFiles $3 > 1.dbranches
     getBranch $2
     updateBranch
-    findAllOfType $3 > 2.dbranches
+    findAllFiles $3 > 2.dbranches
     getBranch ${cbranch}
     popChanges > /dev/null
     contextDiff 1.dbranches 2.dbranches
